@@ -1,0 +1,14 @@
+{
+  "_comment": "v2 source set (Trellis2 regen 2026-07-26). Each glb is unit-normalised (longest axis = 1.0) and centred. Source orientations, read off the orientation sheets: body +X=muzzle/+Z=up; magazine +Z=feed/+X=fore-aft; scope -Y=objective/+Z=up; muzzle -Y=exit. Target = CP77 weapon frame: +Y=muzzle, +Z=up, +X=right. All axis maps have determinant +1 (no mirroring - the old v1 config mirrored every part).",
+  "donor_glb": "/mnt/sata/weapon_mod/donor/glb/w_smg__darra_pulsar__base1_01.glb",
+  "parts": [
+    { "name": "body",   "glb": "/mnt/sata/weapon_mod/source_v2/weapon_body.glb",
+      "axes": ["+Y","-X","+Z"], "scale": 0.46, "translate": [0, 0.08, 0.0], "enabled": true },
+    { "name": "mag",    "glb": "/mnt/sata/weapon_mod/source_v2/weapon_magazine.glb",
+      "axes": ["+Y","-X","+Z"], "scale": 0.16, "translate": [0, -0.02, -0.06], "enabled": true },
+    { "name": "scope",  "glb": "/mnt/sata/weapon_mod/source_v2/weapon_scope.glb",
+      "axes": ["-X","-Y","+Z"], "scale": 0.13, "translate": [0, 0.10, 0.11], "enabled": false },
+    { "name": "muzzle", "glb": "/mnt/sata/weapon_mod/source_v2/weapon_muzzle.glb",
+      "axes": ["-X","-Y","+Z"], "scale": 0.16, "translate": [0, 0.34, 0.02], "enabled": false }
+  ]
+}

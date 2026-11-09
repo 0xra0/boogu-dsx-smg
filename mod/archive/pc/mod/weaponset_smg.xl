@@ -1,0 +1,5 @@
+factories:
+  - weaponset\smg\weaponset_factory.csv
+localization:
+  onscreens:
+    en-us: weaponset\smg\local\en-us.json

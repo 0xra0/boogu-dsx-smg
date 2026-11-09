@@ -1,0 +1,872 @@
+==============================================================
+freeze capture  2026-07-30 18:08:44   pid=3449102
+==============================================================
+
+--- process ---
+state=R  utime=78526  stime=28343  threads=119  rss_pages=2911997
+
+--- sample 1: per-thread cpu ticks (utime+stime) ---
+24686	S	3449102	GameThread
+8702	S	3451079	redDispatcher12
+6437	S	3451082	redDispatcher15
+4748	S	3451073	redDispatcher7
+4217	R	3451066	redDispatcher1
+4177	S	3451070	redDispatcher5
+3759	S	3451068	redDispatcher3
+3738	S	3451071	redDispatcher6
+3712	S	3451067	redDispatcher2
+3632	S	3451075	redDispatcher8
+3574	S	3451081	redDispatcher14
+3573	S	3451069	redDispatcher4
+3516	S	3451080	redDispatcher13
+3505	S	3451077	redDispatcher10
+3492	S	3451076	redDispatcher9
+3490	S	3451078	redDispatcher11
+3427	S	3457382	vkd3d_queue
+3344	S	3456771	vkd3d_queue
+704	S	3451047	redIOWorker0
+623	S	3456770	vkd3d_fence
+
+(sampling again in 3s to see which threads are actually advancing)
+--- sample 2: threads that ADVANCED between samples ---
+tid=3449102  +294 ticks  state=R  GameThread
+tid=3451082  +53 ticks  state=S  redDispatcher15
+tid=3451066  +53 ticks  state=S  redDispatcher1
+tid=3451068  +52 ticks  state=R  redDispatcher3
+tid=3451067  +52 ticks  state=S  redDispatcher2
+tid=3451079  +51 ticks  state=S  redDispatcher12
+tid=3451076  +51 ticks  state=S  redDispatcher9
+tid=3451075  +51 ticks  state=S  redDispatcher8
+tid=3451071  +51 ticks  state=S  redDispatcher6
+tid=3451081  +50 ticks  state=S  redDispatcher14
+tid=3451080  +50 ticks  state=S  redDispatcher13
+tid=3451078  +50 ticks  state=S  redDispatcher11
+tid=3451069  +50 ticks  state=S  redDispatcher4
+tid=3451077  +49 ticks  state=S  redDispatcher10
+tid=3451073  +49 ticks  state=S  redDispatcher7
+tid=3451070  +49 ticks  state=S  redDispatcher5
+tid=3456771  +26 ticks  state=S  vkd3d_queue
+tid=3457185  +15 ticks  state=S  BinkAsy5
+tid=3457184  +15 ticks  state=S  BinkAsy4
+tid=3450919  +6 ticks  state=S  cpal_wasapi_out
+(nothing listed above = every thread is idle -> blocked, not looping)
+
+--- kernel wait channels (what each thread is blocked in) ---
+     66 tid=3449142 state=S wchan=futex_do_wait
+     32 tid=3450919 state=S wchan=ntsync_schedule.isra.0
+      5 tid=3450918 state=S wchan=poll_schedule_timeout.constprop.0
+      2 tid=3457747 state=swapchain wchan=futex_do_wait
+      2 tid=3451073 state=R wchan=ntsync_schedule.isra.0
+      2 tid=3450927 state=mixer wchan=ntsync_schedule.isra.0
+      2 tid=3450926 state=stream wchan=poll_schedule_timeout.constprop.0
+      2 tid=3449102 state=R wchan=0
+      1 tid=3476610 state=FSR wchan=0
+      1 tid=3476609 state=FSR wchan=ntsync_schedule.isra.0
+      1 tid=3470955 state=IO) wchan=futex_do_wait
+      1 tid=3457185 state=R wchan=futex_do_wait
+      1 tid=3456771 state=S wchan=0
+      1 tid=3451598 state=S wchan=anon_pipe_read
+
+--- backtraces (all threads) ---
+PID 3449102 - process
+TID 3449102:
+#0  0x00006ffffff5eb00
+#1  0x000000000031e790
+eu-stack: dwfl_thread_getframes tid 3449102 at 0x31e78f in <unknown>: No DWARF information found
+TID 3449142:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449143:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449144:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449145:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449146:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449147:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449148:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449149:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449150:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449151:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449152:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449153:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449154:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449155:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449156:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3449157:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3450917:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c644 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3450918:
+#0  0x00007f6844067d6e __syscall_cancel_arch
+#1  0x00007f684405c854 __internal_syscall_cancel
+#2  0x00007f684405c89d __syscall_cancel
+#3  0x00007f68440d1766 __poll
+#4  0x00007f684281fe41 pulse_poll_func
+#5  0x00007f683b3cbf51 pa_mainloop_poll
+#6  0x00007f683b3d3618 pa_mainloop_iterate
+#7  0x00007f683b3d36d0 pa_mainloop_run
+#8  0x00007f6842820fc5 pulse_main_loop
+#9  0x00007f6843f27486 __wine_unix_call_dispatcher
+#10 0x00007f6843f46b7e start_thread
+#11 0x00007f684405fdd5 start_thread
+#12 0x00007f68440de208 __clone3
+TID 3450919:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3923d NtWaitForMultipleObjects
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3450921:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c644 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3450923:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f1cad0 NtNotifyChangeMultipleKeys
+#5  0x00007f6843f1cb0b NtNotifyChangeKey
+#6  0x00007f6843f27196 __wine_syscall_dispatcher
+#7  0x00007f6843f46b7e start_thread
+#8  0x00007f684405fdd5 start_thread
+#9  0x00007f68440de208 __clone3
+TID 3450924:
+#0  0x00007f6844067d6e __syscall_cancel_arch
+#1  0x00007f684405c854 __internal_syscall_cancel
+#2  0x00007f684405ce7c __futex_abstimed_wait_common
+#3  0x00007f684405f5ad pthread_cond_timedwait@@GLIBC_2.3.2
+#4  0x00007f6842820a27 g_phys_cond_timedwait_ms.constprop.0
+#5  0x00007f6842828803 pulse_get_endpoint_ids
+#6  0x00007f6843f27486 __wine_unix_call_dispatcher
+#7  0x00007f6843f46b7e start_thread
+#8  0x00007f684405fdd5 start_thread
+#9  0x00007f68440de208 __clone3
+TID 3450926:
+#0  0x00007f6844067d6e __syscall_cancel_arch
+#1  0x00007f684405c854 __internal_syscall_cancel
+#2  0x00007f684405c89d __syscall_cancel
+#3  0x00007f68440dbb8f __select
+#4  0x00007f6843f3a2d9 NtDelayExecution
+#5  0x00007f6843f27196 __wine_syscall_dispatcher
+#6  0x00007f6843f46b7e start_thread
+#7  0x00007f684405fdd5 start_thread
+#8  0x00007f68440de208 __clone3
+TID 3450927:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3450928:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3450929:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3923d NtWaitForMultipleObjects
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3450930:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3450931:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3923d NtWaitForMultipleObjects
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3450932:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3450933:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3923d NtWaitForMultipleObjects
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451047:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451066:
+#0  0x00006ffffab54090
+#1  0x000000000000002f
+eu-stack: dwfl_thread_getframes tid 3451066 at 0x2e in <unknown>: No DWARF information found
+TID 3451067:
+#0  0x00006ffff93858e2
+#1  0x000001fc000001f8
+eu-stack: dwfl_thread_getframes tid 3451067 at 0x1fc000001f7 in <unknown>: No DWARF information found
+TID 3451068:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451069:
+#0  0x00006fffebfe5c95
+#1  0x0000001f4b79b780
+eu-stack: dwfl_thread_getframes tid 3451069 at 0x1f4b79b77f in <unknown>: No DWARF information found
+TID 3451070:
+#0  0x00006ffff938a700
+#1  0x0000000000000000
+eu-stack: dwfl_thread_getframes tid 3451070 at 0xffffffffffffffff in /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/wine64-preloader: No DWARF information found
+TID 3451071:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451073:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451075:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451076:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451077:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451078:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451079:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451080:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451081:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451082:
+#0  0x00007f68440da23b ioctl
+#1  0x00007f6843f3477a linux_wait_objs
+#2  0x00007f6843f35a03 inproc_wait
+#3  0x00007f6843f3957c NtWaitForSingleObject
+#4  0x00007f6843f27196 __wine_syscall_dispatcher
+#5  0x00007f6843f46b7e start_thread
+#6  0x00007f684405fdd5 start_thread
+#7  0x00007f68440de208 __clone3
+TID 3451224:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3451267:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c644 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3451275:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3451276:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+#4  0x00007f684405fdd5 start_thread
+#5  0x00007f68440de208 __clone3
+TID 3451278:
+#0  0x00007f68440dc129 syscall
+#1  0x00007f6843f3c6a8 NtWaitForAlertByThreadId
+#2  0x00007f6843f27196 __wine_syscall_dispatcher
+#3  0x00007f6843f46b7e start_thread
+
+--- gdb backtrace (fallback / richer symbols) ---
+[New LWP 3477564]
+[New LWP 3476610]
+[New LWP 3476609]
+[New LWP 3472856]
+[New LWP 3470955]
+[New LWP 3470954]
+[New LWP 3470953]
+[New LWP 3470952]
+[New LWP 3470951]
+[New LWP 3470950]
+[New LWP 3457748]
+[New LWP 3457747]
+[New LWP 3457387]
+[New LWP 3457386]
+[New LWP 3457384]
+[New LWP 3457382]
+[New LWP 3457381]
+[New LWP 3457185]
+[New LWP 3457184]
+[New LWP 3456790]
+[New LWP 3456789]
+[New LWP 3456788]
+[New LWP 3456787]
+[New LWP 3456785]
+[New LWP 3456784]
+[New LWP 3456783]
+[New LWP 3456782]
+[New LWP 3456781]
+[New LWP 3456778]
+[New LWP 3456777]
+[New LWP 3456776]
+[New LWP 3456775]
+[New LWP 3456774]
+[New LWP 3456773]
+[New LWP 3456772]
+[New LWP 3456771]
+[New LWP 3456770]
+[New LWP 3456769]
+[New LWP 3456768]
+[New LWP 3456767]
+[New LWP 3456766]
+[New LWP 3456765]
+[New LWP 3456757]
+[New LWP 3456756]
+[New LWP 3456755]
+[New LWP 3453923]
+[New LWP 3453922]
+[New LWP 3453921]
+[New LWP 3453920]
+[New LWP 3453919]
+[New LWP 3453918]
+[New LWP 3453917]
+[New LWP 3453916]
+[New LWP 3452033]
+[New LWP 3452032]
+[New LWP 3452031]
+[New LWP 3452029]
+[New LWP 3452028]
+[New LWP 3451688]
+[New LWP 3451687]
+[New LWP 3451686]
+[New LWP 3451598]
+[New LWP 3451586]
+[New LWP 3451579]
+[New LWP 3451577]
+[New LWP 3451536]
+[New LWP 3451279]
+[New LWP 3451278]
+[New LWP 3451276]
+[New LWP 3451275]
+[New LWP 3451267]
+[New LWP 3451224]
+[New LWP 3451082]
+[New LWP 3451081]
+[New LWP 3451080]
+[New LWP 3451079]
+[New LWP 3451078]
+[New LWP 3451077]
+[New LWP 3451076]
+[New LWP 3451075]
+[New LWP 3451073]
+[New LWP 3451071]
+[New LWP 3451070]
+[New LWP 3451069]
+[New LWP 3451068]
+[New LWP 3451067]
+[New LWP 3451066]
+[New LWP 3451047]
+[New LWP 3450933]
+[New LWP 3450932]
+[New LWP 3450931]
+[New LWP 3450930]
+[New LWP 3450929]
+[New LWP 3450928]
+[New LWP 3450927]
+[New LWP 3450926]
+[New LWP 3450924]
+[New LWP 3450923]
+[New LWP 3450921]
+[New LWP 3450919]
+[New LWP 3450918]
+[New LWP 3450917]
+[New LWP 3449157]
+[New LWP 3449156]
+[New LWP 3449155]
+[New LWP 3449154]
+[New LWP 3449153]
+[New LWP 3449152]
+[New LWP 3449151]
+[New LWP 3449150]
+[New LWP 3449149]
+[New LWP 3449148]
+[New LWP 3449147]
+[New LWP 3449146]
+[New LWP 3449145]
+[New LWP 3449144]
+[New LWP 3449143]
+[New LWP 3449142]
+
+warning: Selected architecture i386:x86-64 is not compatible with reported target architecture i386:x64-32
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/../lib64/libthread_db.so.1".
+0x00006fffee2ab115 in ?? () from /mnt/ssd/Cyberpunk 2077/game/prefix/drive_c/game/bin/x64/plugins/cyber_engine_tweaks.asi
+warning: File "/usr/lib/libstdc++.so.6.0.34-gdb.py" auto-loading has been declined by your `auto-load safe-path' set to "$debugdir:$datadir/auto-load".
+To enable execution of this file add
+	add-auto-load-safe-path /usr/lib/libstdc++.so.6.0.34-gdb.py
+line to your configuration file "/home/home/.config/gdb/gdbinit".
+To completely disable this security protection add
+	set auto-load safe-path /
+line to your configuration file "/home/home/.config/gdb/gdbinit".
+For more information about this security protection see the
+"Auto-loading safe path" section in the GDB manual.  E.g., run from the shell:
+	info "(gdb)Auto-loading safe path"
+
+Thread 119 (Thread 0x10042f6c0 (LWP 3449142) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 118 (Thread 0x10052f6c0 (LWP 3449143) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 117 (Thread 0x10062f6c0 (LWP 3449144) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 116 (Thread 0x10072f6c0 (LWP 3449145) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 115 (Thread 0x10082f6c0 (LWP 3449146) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 114 (Thread 0x10092f6c0 (LWP 3449147) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 113 (Thread 0x100a2f6c0 (LWP 3449148) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 112 (Thread 0x100b2f6c0 (LWP 3449149) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 111 (Thread 0x100c2f6c0 (LWP 3449150) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 110 (Thread 0x100d2f6c0 (LWP 3449151) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 109 (Thread 0x100e2f6c0 (LWP 3449152) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 108 (Thread 0x100f2f6c0 (LWP 3449153) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 107 (Thread 0x10102f6c0 (LWP 3449154) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 106 (Thread 0x10112f6c0 (LWP 3449155) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 105 (Thread 0x10122f6c0 (LWP 3449156) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 104 (Thread 0x10132f6c0 (LWP 3449157) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 103 (Thread 0x103cff6c0 (LWP 3450917) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c644 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 102 (Thread 0x103dff6c0 (LWP 3450918) "audio_client_ma"):
+#0  __syscall_cancel_arch () at ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S:56
+#1  0x00007f684405c854 in __internal_syscall_cancel (a1=<optimized out>, a2=<optimized out>, a3=<optimized out>, a4=a4@entry=0, a5=a5@entry=0, a6=a6@entry=0, nr=7) at cancellation.c:49
+#2  0x00007f684405c89d in __syscall_cancel (a1=<optimized out>, a2=<optimized out>, a3=<optimized out>, a4=a4@entry=0, a5=a5@entry=0, a6=a6@entry=0, nr=7) at cancellation.c:75
+#3  0x00007f68440d1766 in __GI___poll (fds=<optimized out>, nfds=<optimized out>, timeout=<optimized out>) at ../sysdeps/unix/sysv/linux/poll.c:29
+#4  0x00007f684281fe41 in pulse_poll_func () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/winepulse.so
+#5  0x00007f683b3cbf51 in pa_mainloop_poll () from /usr/lib/libpulse.so.0
+#6  0x00007f683b3d3618 in pa_mainloop_iterate () from /usr/lib/libpulse.so.0
+#7  0x00007f683b3d36d0 in pa_mainloop_run () from /usr/lib/libpulse.so.0
+#8  0x00007f6842820fc5 in pulse_main_loop () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/winepulse.so
+#9  0x00007f6843f27486 in __wine_unix_call_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#10 0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#11 0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#12 0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 101 (Thread 0x10fa9f6c0 (LWP 3450919) "cpal_wasapi_out"):
+#0  __GI___ioctl (fd=11, request=3223867010) at ../sysdeps/unix/sysv/linux/ioctl.c:36
+#1  0x00007f6843f3477a in linux_wait_objs () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f35a03 in inproc_wait () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f3923d in NtWaitForMultipleObjects () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#6  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#7  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 100 (Thread 0x10030f6c0 (LWP 3450921) "audioware"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c644 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 99 (Thread 0x10fb9f6c0 (LWP 3450923) "wine_mmdevapi_n"):
+#0  __GI___ioctl (fd=11, request=3223867010) at ../sysdeps/unix/sysv/linux/ioctl.c:36
+#1  0x00007f6843f3477a in linux_wait_objs () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f35a03 in inproc_wait () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f3957c in NtWaitForSingleObject () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f6843f1cad0 in NtNotifyChangeMultipleKeys () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f6843f1cb0b in NtNotifyChangeKey () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#6  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#7  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#8  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#9  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 98 (Thread 0x10fd9f6c0 (LWP 3450924) "Cyberpunk2077.e"):
+#0  __syscall_cancel_arch () at ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S:56
+#1  0x00007f684405c854 in __internal_syscall_cancel (a1=<optimized out>, a2=<optimized out>, a3=a3@entry=0, a4=<optimized out>, a5=a5@entry=0, a6=a6@entry=4294967295, nr=202) at cancellation.c:49
+#2  0x00007f684405ce7c in __futex_abstimed_wait_common64 (private=0, futex_word=0x7f6842839680 <g_phys_cond+32>, expected=0, op=<optimized out>, abstime=0x10fd9e890, cancel=true) at futex-internal.c:57
+#3  __futex_abstimed_wait_common (futex_word=futex_word@entry=0x7f6842839680 <g_phys_cond+32>, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x10fd9e890, private=private@entry=0, cancel=cancel@entry=true) at futex-internal.c:87
+#4  0x00007f684405cedb in __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0x7f6842839680 <g_phys_cond+32>, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x10fd9e890, private=private@entry=0) at futex-internal.c:139
+#5  0x00007f684405f5ad in __pthread_cond_wait_common (cond=0x7f6842839660 <g_phys_cond>, mutex=0x7f68428396a0 <g_phys_mutex>, clockid=<optimized out>, abstime=0x10fd9e890) at pthread_cond_wait.c:426
+#6  ___pthread_cond_timedwait64 (cond=0x7f6842839660 <g_phys_cond>, mutex=0x7f68428396a0 <g_phys_mutex>, abstime=0x10fd9e890) at pthread_cond_wait.c:483
+#7  0x00007f6842820a27 in g_phys_cond_timedwait_ms.constprop () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/winepulse.so
+#8  0x00007f6842828803 in pulse_get_endpoint_ids () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/winepulse.so
+#9  0x00007f6843f27486 in __wine_unix_call_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#10 0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#11 0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#12 0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 97 (Thread 0x10ff9f6c0 (LWP 3450926) "FMOD stream thr"):
+#0  __syscall_cancel_arch () at ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S:56
+#1  0x00007f684405c854 in __internal_syscall_cancel (a1=<optimized out>, a2=<optimized out>, a3=<optimized out>, a4=<optimized out>, a5=a5@entry=4563003728, a6=a6@entry=0, nr=270) at cancellation.c:49
+#2  0x00007f684405c89d in __syscall_cancel (a1=<optimized out>, a2=<optimized out>, a3=<optimized out>, a4=<optimized out>, a5=a5@entry=4563003728, a6=a6@entry=0, nr=270) at cancellation.c:75
+#3  0x00007f68440dbb8f in __GI___select (nfds=<optimized out>, readfds=<optimized out>, writefds=<optimized out>, exceptfds=<optimized out>, timeout=0x10ff9e9b0) at ../sysdeps/unix/sysv/linux/select.c:69
+#4  0x00007f6843f3a2d9 in NtDelayExecution () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#6  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#7  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#8  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 96 (Thread 0x10fc9f6c0 (LWP 3450927) "FMOD mixer thre"):
+#0  __GI___ioctl (fd=11, request=3223867010) at ../sysdeps/unix/sysv/linux/ioctl.c:36
+#1  0x00007f6843f3477a in linux_wait_objs () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f35a03 in inproc_wait () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f3957c in NtWaitForSingleObject () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#6  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#7  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 95 (Thread 0x11009f6c0 (LWP 3450928) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 94 (Thread 0x11019f6c0 (LWP 3450929) "Cyberpunk2077.e"):
+#0  __GI___ioctl (fd=11, request=3223867010) at ../sysdeps/unix/sysv/linux/ioctl.c:36
+#1  0x00007f6843f3477a in linux_wait_objs () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f35a03 in inproc_wait () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f3923d in NtWaitForMultipleObjects () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#6  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#7  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 93 (Thread 0x11029f6c0 (LWP 3450930) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 92 (Thread 0x11039f6c0 (LWP 3450931) "Cyberpunk2077.e"):
+#0  __GI___ioctl (fd=11, request=3223867010) at ../sysdeps/unix/sysv/linux/ioctl.c:36
+#1  0x00007f6843f3477a in linux_wait_objs () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f35a03 in inproc_wait () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f3923d in NtWaitForMultipleObjects () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#5  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#6  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#7  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 91 (Thread 0x11049f6c0 (LWP 3450932) "Cyberpunk2077.e"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
+#1  0x00007f6843f3c6a8 in NtWaitForAlertByThreadId () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f27196 in __wine_syscall_dispatcher () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f46b7e in start_thread () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#4  0x00007f684405fdd5 in start_thread (arg=<optimized out>) at pthread_create.c:448
+#5  0x00007f68440de208 in __GI___clone3 () at ../sysdeps/unix/sysv/linux/x86_64/clone3.S:78
+
+Thread 90 (Thread 0x11059f6c0 (LWP 3450933) "Cyberpunk2077.e"):
+#0  __GI___ioctl (fd=11, request=3223867010) at ../sysdeps/unix/sysv/linux/ioctl.c:36
+#1  0x00007f6843f3477a in linux_wait_objs () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#2  0x00007f6843f35a03 in inproc_wait () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so
+#3  0x00007f6843f3923d in NtWaitForMultipleObjects () from /mnt/ssd/Cyberpunk 2077/game/wine/lib/wine/x86_64-unix/ntdll.so

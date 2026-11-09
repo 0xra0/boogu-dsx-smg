@@ -1,0 +1,361 @@
+# Boogu DS-X - custom power SMG + matching attachments (ArchiveXL + TweakXL)
+# Built on the Darra Pulsar (bullpup power SMG) so it inherits its rig, anim
+# graph, FX and attachment slots.  Wiring follows two custom-weapon mods that are
+# known to work in this install: ExtraIconics/Seijax (appearanceResourceName ->
+# factory csv -> .app, and the slotPartList / slotPartListPreset overrides below)
+# and Storm_Blade (icon atlas).
+#
+# Spawn - one line per item in the CET console (each console entry is its own
+# scope, so a `local` from a previous line is gone by the next one):
+#   Game.GetTransactionSystem():GiveItem(Game.GetPlayer(), ItemID.FromTDBID("Items.WeaponSet_SMG"), 1)
+#   Game.GetTransactionSystem():GiveItem(Game.GetPlayer(), ItemID.FromTDBID("Items.WeaponSet_Scope"), 1)
+#   Game.GetTransactionSystem():GiveItem(Game.GetPlayer(), ItemID.FromTDBID("Items.WeaponSet_Muzzle"), 1)
+#
+# ---------------------------------------------------------------------------
+# The Pulsar's own slot wiring, read out of tweakdb_ep1.bin (tweakdb_read.py) so
+# none of it is guessed:
+#
+#   Items.Base_Pulsar.slotPartList = [ inline1 Receiver, inline3 Barrel,
+#       inline5 Magazine, inline7 MagazineEmpty, HandgunPossibleScopesList
+#       (Scope), RangedWeaponPossibleMuzzleList (PowerModule),
+#       RiflePossibleMuzzleBrakeList (PowerModule) ]
+#   Items.Preset_Pulsar_Default.slotPartListPreset = [ inline0 Receiver,
+#       inline1 Barrel, inline2 Magazine, inline3 MagazineEmpty,
+#       HandgunAndRevolverScopesPartList (Scope), inline4 WeaponMod1,
+#       inline5 WeaponMod2 ]
+#
+# So the odd/even inline numbering used below is verified, not inferred, and the
+# vanilla weapon itself already carries two PowerModule entries - duplicate slots
+# in slotPartList are normal.
+# ---------------------------------------------------------------------------
+
+# --- weapon part items: each points at our own appearance resource -----------
+# A weapon is not drawn from its main .app alone.  Every slot in
+# slotPartListPreset spawns a part ENTITY built from that part item's own
+# appearance resource, and as soon as anything is attached the game rebuilds the
+# whole weapon from those part entities.  With the stock part items still in the
+# preset that means the stock Pulsar body/magazine reappear the moment a scope or
+# muzzle goes on.  These three items re-point every part that has geometry at our
+# appearances.
+#
+# The Receiver slot is deliberately NOT overridden: all eight appearances in the
+# donor's w_submachinegun__darra_pulsar__rcv1_01.app have components: null and
+# compiledData: null, i.e. the Pulsar's receiver part draws nothing at all.  The
+# override we used to have pointed it at an equally empty app of our own, which
+# bought nothing and only added a resource to the rebuild path.
+Items.WeaponSet__base1:
+  $base: Items.w_submachinegun__darra_pulsar__base1
+  appearanceResourceName: weaponset_base1_app
+
+Items.WeaponSet__mag_std:
+  $base: Items.w_submachinegun__darra_pulsar__mag_std
+  appearanceResourceName: weaponset_mag_std_app
+
+Items.WeaponSet__mag_stdr:
+  $base: Items.w_submachinegun__darra_pulsar__mag_stdr
+  appearanceResourceName: weaponset_mag_stdr_app
+
+# --- the weapon --------------------------------------------------------------
+Items.WeaponSet_SMG:
+  $base: Items.Preset_Pulsar_Default
+  appearanceResourceName: weaponset_smg_app
+  displayName: WeaponSet_SMG_name
+  localizedDescription: WeaponSet_SMG_desc
+  visualTags: [ Default ]
+  quality: Quality.Legendary
+  canDrop: true
+  icon:
+    atlasResourcePath: weaponset\smg\icon\weaponset_icon.inkatlas
+    atlasPartName: slot_01
+
+  # NOTE: `blueprint` is deliberately NOT overridden.  It is inherited from the
+  # Pulsar as Items.Base_Power_AR_SMG_LMG_Blueprint, whose root element lists
+  # Power_AR_SMG_LMG_WeaponMod1Element + WeaponMod2Element + ScopeElement +
+  # PowerModuleElement - i.e. the two generic weapon-mod slots.  The previous
+  # build set Items.Iconic_Ranged_Weapon_Blueprint, whose root lists only
+  # IconicRangedWeaponModElement, and that is exactly why no weapon mods (fire,
+  # explosive rounds, ...) could be installed: vanilla iconics have no generic
+  # mod slots at all.  For the same reason the item is no longer tagged
+  # IconicWeapon - it keeps the custom name, description and icon, but stays a
+  # normal legendary weapon that can be modded, sold and dropped.
+  # THE EQUIP FREEZE, 2026-07-30.  Quality.Legendary above is the intended
+  # quality and QualityRandomization would re-roll it on spawn (that is where the
+  # "epic" copies came from) - but removing it ALONE is what hung the game.
+  # `Items.ItemPlusRandomizer_MaxQuality` / `_Below_MaxQuality` roll the +/++
+  # tier *relative to the quality QualityRandomization picked*; with the picker
+  # gone they have no bounded quality to roll against.  Measured against the
+  # whole of TweakDB (tweakdb_read.py): **1134 vanilla records carry an
+  # ItemPlusRandomizer and 0 of them lack Items.QualityRandomization** - the
+  # combination we were shipping does not occur once in 193354 records.  That is
+  # why EVERY rung of the ladder froze, down to Items.WeaponSet_Test (a plain
+  # clone with no asset of ours), while the genuine vanilla Pulsar was fine: all
+  # five carry this same statModifierGroups edit and nothing else in common.
+  # Remove the picker and its two dependents together, or none of them.
+  statModifierGroups:
+    - !remove Items.QualityRandomization
+    - !remove Items.ItemPlusRandomizer_MaxQuality
+    - !remove Items.ItemPlusRandomizer_Below_MaxQuality
+
+  # Which parts MAY be installed.  Written as a full array in the Pulsar's own
+  # order: the three slots that carry geometry are rebased on the Pulsar's slot
+  # elements so they keep their slot with our part as the only choice, the
+  # Receiver is left stock, and the attachment lists are the Pulsar's own three
+  # plus our two - so every scope and muzzle that fits a Pulsar still fits, and
+  # ours fit as well.  The six extra vanilla scope/muzzle lists the previous
+  # build added (Rifle/Nekomata/Grad scopes, HandgunMuzzleBraks) are gone: they
+  # duplicated AttachmentSlots.Scope four ways for no gain and are a suspect in
+  # the equip freeze - see the bisect at the bottom of this file.
+  slotPartList:
+    - Items.Base_Pulsar_inline1                 # Receiver - stock, draws nothing
+    - $base: Items.Base_Pulsar_inline3          # AttachmentSlots.Barrel (= the body)
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline4
+          item: Items.WeaponSet__base1
+    - $base: Items.Base_Pulsar_inline5          # AttachmentSlots.Magazine
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline6
+          item: Items.WeaponSet__mag_std
+    - $base: Items.Base_Pulsar_inline7          # AttachmentSlots.MagazineEmpty
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline8
+          item: Items.WeaponSet__mag_stdr
+    - Items.HandgunPossibleScopesList           # Scope
+    - Items.WeaponSet_ScopeList                 # Scope - ours
+    - Items.RangedWeaponPossibleMuzzleList      # PowerModule
+    - Items.RiflePossibleMuzzleBrakeList        # PowerModule
+    - Items.WeaponSet_MuzzleList                # PowerModule - ours
+
+  # What is installed when the item is created.  Written as a full array (the
+  # !remove/!append mutation form left the stock receiver and body in place).
+  # inline4/inline5 are the two generic weapon-mod slots and are kept.
+  slotPartListPreset:
+    - Items.Preset_Pulsar_Default_inline0           # Receiver - stock
+    - $base: Items.Preset_Pulsar_Default_inline1    # Barrel (the weapon body)
+      itemPartPreset: Items.WeaponSet__base1
+    - $base: Items.Preset_Pulsar_Default_inline2    # Magazine
+      itemPartPreset: Items.WeaponSet__mag_std
+    - $base: Items.Preset_Pulsar_Default_inline3    # MagazineEmpty (reload spare)
+      itemPartPreset: Items.WeaponSet__mag_stdr
+    # Scope slot.  Items.HandgunAndRevolverScopesPartList is NOT "nothing
+    # preinstalled" - it is a WEIGHTED RANDOM ROLL: inline0 item=0x0 weight 0.85,
+    # inline1/2/3 = w_att_scope_short_01/03/06 weight 0.05 each.  So a vanilla
+    # Pulsar and any clone of it spawns with a scope already fitted ~15% of the
+    # time, which is where the "default weared scope" copies came from and what
+    # makes any scope bug look intermittent.
+    #
+    # This was previously written as `itemPartList: []`.  DO NOT DO THAT: read
+    # back out of TweakDB, every vanilla slotPartListPreset entry has EITHER a
+    # fixed `itemPartPreset` and an empty candidate list (e.g.
+    # Preset_Pulsar_Default_inline2: itemPartList [], itemPartPreset mag_std) OR
+    # `itemPartPreset 0x0` and a NON-empty weighted list (this record).  Emptying
+    # the list while inheriting itemPartPreset 0x0 produced an entry with neither
+    # a part nor any candidates - a state the base game never contains, i.e. a
+    # weighted roll over an empty array.
+    #
+    # Same determinism, vanilla shape: one candidate, weight 1.0, installing
+    # inline0's item - which is 0x0, i.e. nothing.  Scopes stay installable; that
+    # is governed by slotPartList above, not here.  Restore the plain
+    # `- Items.HandgunAndRevolverScopesPartList` line for the vanilla roll.
+    - $base: Items.HandgunAndRevolverScopesPartList
+      itemPartList:
+        - $base: Items.HandgunAndRevolverScopesPartList_inline0   # item = 0x0
+          weight: 1.0
+    - Items.Preset_Pulsar_Default_inline4           # Power_AR_SMG_LMG_WeaponMod1
+    - Items.Preset_Pulsar_Default_inline5           # Power_AR_SMG_LMG_WeaponMod2
+
+# --- matching attachments ----------------------------------------------------
+# Clones of a vanilla long scope / power-weapon suppressor, so they mount
+# wherever those mount and keep their stats; only the appearance resource is
+# ours.  Items.w_silencer_01 (not w_att_power_street_12601_mzl, which has no
+# appearance resource at all and is a Gen_Misc item) is the record that actually
+# owns the w_att__power_01 appearance we cloned.
+# The custom optic is back on (2026-07-31) after the LAST structural difference
+# from the stock scope was found and closed: our mesh declared `lodLevelInfo [0]`
+# where stock declares `[0, 1]`, because build_scope.py used to drop the donor's
+# LOD2 chunks.  A mesh with one LOD level has nothing to draw once the second one
+# takes over, which is what "the texture inside is transparent" was.  It now ships
+# all five chunks and a field-by-field diff against the stock scope comes back
+# with NO non-geometry differences at all.  Fall back to the stock optic by
+# commenting out the appearanceResourceName line - everything else still works.
+Items.WeaponSet_Scope:
+  $base: Items.w_att_scope_long_01
+  appearanceResourceName: weaponset_scope_app
+  displayName: WeaponSet_Scope_name
+  localizedDescription: WeaponSet_Scope_desc
+
+Items.WeaponSet_Muzzle:
+  $base: Items.w_silencer_01
+  appearanceResourceName: weaponset_muzzle_app
+  displayName: WeaponSet_Muzzle_name
+  localizedDescription: WeaponSet_Muzzle_desc
+
+# ...and the slot-part-list entries that make them installable on our weapon.
+# Our attachments are new items, so they are in none of the vanilla lists.
+Items.WeaponSet_ScopeList:
+  $base: Items.HandgunPossibleScopesList
+  itemPartList:
+    - $type: ItemPartListElement
+      item: Items.WeaponSet_Scope
+
+Items.WeaponSet_MuzzleList:
+  $base: Items.RangedWeaponPossibleMuzzleList
+  itemPartList:
+    - $type: ItemPartListElement
+      item: Items.WeaponSet_Muzzle
+
+# ---------------------------------------------------------------- diagnostics
+# ROOT CAUSE 2026-07-30, fixed in build_apps_v2.py - the freeze was never in
+# this file.  Component CRUIDs were being regenerated, on the assumption that a
+# clone must not collide with the resource it was cloned from.  That is
+# backwards: a CRUID identifies a component ROLE and the game relies on the same
+# id appearing in several resources.  Within one weapon the whole-weapon .app
+# and its part .apps describe the same components and vanilla gives them the
+# same id (Pulsar 9/9 base1, 4/4 mag_std, 2/2 mag_stdr) - that is how the engine
+# reconciles the weapon appearance's components with the part entities' when it
+# rebuilds the weapon from parts.  Some ids are even shared between completely
+# different weapons: AppearanceVisualController 14627333968358193840,
+# FX_muzzle_light_360/...412 and the appearance proxy mesh 1273696162024812544
+# are byte-identical in the vanilla Darra Pulsar and Militech Ajax apps.
+# ExtraIconics/Seijax - the custom firearm mod that provably works in this
+# install - keeps every donor id untouched (12/12, 3/3, 2/2, 5/5 shared with its
+# weapon app).  Ours now do too.  A first pass at this only made the ids shared
+# across our own files while still moving them off the donor's; that was not
+# enough and still froze.
+#
+# ...and it STILL froze, so the ladder below is the measurement that replaces
+# further guessing.  Every rung differs from its neighbour by exactly one step,
+# so whichever one first freezes names the layer at fault.  Just EQUIP each in
+# turn - no attaching needed, the current symptom is on equip.
+#
+#   Items.WeaponSet_Test   nothing of ours at all - plain clone of the Pulsar
+#                          preset.  Control: proves the mod environment is sane.
+#   Items.WeaponSet_SMG_A  our appearance resource, every slot left stock.
+#                          Isolates our .app + meshes.
+#   Items.WeaponSet_SMG_C  stock appearance and STOCK parts, but the
+#                          slotPartList / slotPartListPreset arrays written by
+#                          hand exactly as below.  Isolates the array authoring
+#                          from every asset we ship.
+#   Items.WeaponSet_SMG_B  our appearance + our part items, Pulsar's own three
+#                          attachment lists (no Items.WeaponSet_*List).
+#   Items.WeaponSet_SMG    = B + our two custom attachment lists.
+#
+# Reading the result:
+#   Test freezes      -> not this mod; environment / another mod / save state
+#   A freezes         -> our appearance resource or a mesh in it
+#   C freezes         -> how these arrays are written, no asset of ours involved
+#   B freezes         -> our part items / part .apps (the rebuild-from-parts path)
+#   only SMG freezes  -> our two custom attachment lists
+Items.WeaponSet_SMG_A:
+  $base: Items.Preset_Pulsar_Default
+  appearanceResourceName: weaponset_smg_app
+  displayName: WeaponSet_SMG_A_name
+  localizedDescription: WeaponSet_SMG_A_desc
+  quality: Quality.Legendary
+  canDrop: true
+  statModifierGroups:
+    - !remove Items.QualityRandomization
+    - !remove Items.ItemPlusRandomizer_MaxQuality
+    - !remove Items.ItemPlusRandomizer_Below_MaxQuality
+
+Items.WeaponSet_SMG_B:
+  $base: Items.Preset_Pulsar_Default
+  appearanceResourceName: weaponset_smg_app
+  displayName: WeaponSet_SMG_B_name
+  localizedDescription: WeaponSet_SMG_B_desc
+  quality: Quality.Legendary
+  canDrop: true
+  statModifierGroups:
+    - !remove Items.QualityRandomization
+    - !remove Items.ItemPlusRandomizer_MaxQuality
+    - !remove Items.ItemPlusRandomizer_Below_MaxQuality
+  slotPartList:
+    - Items.Base_Pulsar_inline1
+    - $base: Items.Base_Pulsar_inline3
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline4
+          item: Items.WeaponSet__base1
+    - $base: Items.Base_Pulsar_inline5
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline6
+          item: Items.WeaponSet__mag_std
+    - $base: Items.Base_Pulsar_inline7
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline8
+          item: Items.WeaponSet__mag_stdr
+    - Items.HandgunPossibleScopesList
+    - Items.RangedWeaponPossibleMuzzleList
+    - Items.RiflePossibleMuzzleBrakeList
+  slotPartListPreset:
+    - Items.Preset_Pulsar_Default_inline0
+    - $base: Items.Preset_Pulsar_Default_inline1
+      itemPartPreset: Items.WeaponSet__base1
+    - $base: Items.Preset_Pulsar_Default_inline2
+      itemPartPreset: Items.WeaponSet__mag_std
+    - $base: Items.Preset_Pulsar_Default_inline3
+      itemPartPreset: Items.WeaponSet__mag_stdr
+    - $base: Items.HandgunAndRevolverScopesPartList   # no random scope preinstall
+      itemPartList:
+        - $base: Items.HandgunAndRevolverScopesPartList_inline0
+          weight: 1.0
+    - Items.Preset_Pulsar_Default_inline4
+    - Items.Preset_Pulsar_Default_inline5
+
+# C: the arrays written by hand exactly as in Items.WeaponSet_SMG, but every part
+# and the appearance left completely stock.  If this freezes, the fault is in how
+# these two arrays are authored - inline numbering, element type, TweakXL's
+# handling of `$base` on an inline record - and no asset we ship is involved.  If
+# it does NOT freeze while B does, the arrays are fine and the fault is in our
+# part items or their .apps.
+Items.WeaponSet_SMG_C:
+  $base: Items.Preset_Pulsar_Default
+  displayName: WeaponSet_SMG_C_name
+  localizedDescription: WeaponSet_SMG_C_desc
+  quality: Quality.Legendary
+  canDrop: true
+  statModifierGroups:
+    - !remove Items.QualityRandomization
+    - !remove Items.ItemPlusRandomizer_MaxQuality
+    - !remove Items.ItemPlusRandomizer_Below_MaxQuality
+  slotPartList:
+    - Items.Base_Pulsar_inline1
+    - $base: Items.Base_Pulsar_inline3
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline4
+          item: Items.w_submachinegun__darra_pulsar__base1
+    - $base: Items.Base_Pulsar_inline5
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline6
+          item: Items.w_submachinegun__darra_pulsar__mag_std
+    - $base: Items.Base_Pulsar_inline7
+      itemPartList:
+        - $base: Items.Base_Pulsar_inline8
+          item: Items.w_submachinegun__darra_pulsar__mag_stdr
+    - Items.HandgunPossibleScopesList
+    - Items.RangedWeaponPossibleMuzzleList
+    - Items.RiflePossibleMuzzleBrakeList
+  slotPartListPreset:
+    - Items.Preset_Pulsar_Default_inline0
+    - $base: Items.Preset_Pulsar_Default_inline1
+      itemPartPreset: Items.w_submachinegun__darra_pulsar__base1
+    - $base: Items.Preset_Pulsar_Default_inline2
+      itemPartPreset: Items.w_submachinegun__darra_pulsar__mag_std
+    - $base: Items.Preset_Pulsar_Default_inline3
+      itemPartPreset: Items.w_submachinegun__darra_pulsar__mag_stdr
+    - $base: Items.HandgunAndRevolverScopesPartList
+      itemPartList:
+        - $base: Items.HandgunAndRevolverScopesPartList_inline0
+          weight: 1.0
+    - Items.Preset_Pulsar_Default_inline4
+    - Items.Preset_Pulsar_Default_inline5
+
+# Control: plain clone, stock appearance, stock quality.  Nothing of ours.
+Items.WeaponSet_Test:
+  $base: Items.Preset_Pulsar_Default
+  displayName: WeaponSet_Test_name
+  localizedDescription: WeaponSet_Test_desc
+  quality: Quality.Legendary
+  canDrop: true
+  statModifierGroups:
+    - !remove Items.QualityRandomization
+    - !remove Items.ItemPlusRandomizer_MaxQuality
+    - !remove Items.ItemPlusRandomizer_Below_MaxQuality

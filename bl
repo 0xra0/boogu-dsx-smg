@@ -1,0 +1,4 @@
+#!/bin/sh
+# Blender embeds libpython3.13 and derives its stdlib prefix by finding "python3"
+# on PATH - with the conda env first it picks up 3.12 and every import fails.
+exec env -i HOME="$HOME" PATH=/usr/bin:/bin TMPDIR=/tmp /usr/bin/blender "$@"

@@ -1,0 +1,69 @@
+{
+  "donor_glb": "/mnt/sata/weapon_mod/donor/glb/w_smg__darra_pulsar__base1_01.glb",
+  "parts": [
+    {
+      "name": "body",
+      "glb": "/mnt/sata/weapon_mod/source/weapon_body.glb",
+      "axes": [
+        "+Y",
+        "+X",
+        "+Z"
+      ],
+      "scale": 0.46,
+      "translate": [
+        0,
+        0.08,
+        0.0
+      ],
+      "enabled": true
+    },
+    {
+      "name": "barrel",
+      "glb": "/mnt/sata/weapon_mod/source/weapon_barrel_v2.glb",
+      "axes": [
+        "+Y",
+        "+X",
+        "+Z"
+      ],
+      "scale": 0.16,
+      "translate": [
+        0,
+        0.377,
+        0.031
+      ],
+      "enabled": true
+    },
+    {
+      "name": "scope",
+      "glb": "/mnt/sata/weapon_mod/source/weapon_scope.glb",
+      "axes": [
+        "+Y",
+        "+X",
+        "+Z"
+      ],
+      "scale": 0.11,
+      "translate": [
+        0,
+        0.112,
+        0.122
+      ],
+      "enabled": true
+    },
+    {
+      "name": "mag",
+      "glb": "/mnt/sata/weapon_mod/source/weapon_magazine.glb",
+      "axes": [
+        "+X",
+        "+Y",
+        "-Z"
+      ],
+      "scale": 0.15,
+      "translate": [
+        0,
+        -0.096,
+        -0.067
+      ],
+      "enabled": true
+    }
+  ]
+}

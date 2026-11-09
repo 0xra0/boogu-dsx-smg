@@ -1,0 +1,35 @@
+result of last session 26 july
+● Both problems found. The magazine one is more interesting than it looked.
+
+  The magazine
+
+  Your weapon's body comes from our .app, but the magazine on screen is a separate part entity attached at mag_slot — and it uses the part item's own appearance resource, not the magazine components inside the
+  main .app. So moving our magazine mesh did nothing visible: the game was drawing the stock Pulsar magazine the whole time.
+
+  I verified the shipped mesh really did move (bbox Y[-0.048,+0.029] Z[-0.149,-0.020] in the deployed archive), which is what proves it's a different magazine being rendered.
+
+  Fixed by pointing the weapon's part presets at our part items via slotPartListPreset. Written as mutations (!remove the two stock entries, !append ours with explicit slots) so nothing else the Pulsar preset
+  installs gets disturbed. Yaml-only change — the archive was already correct, so no rebuild.
+
+  The optic and muzzle
+
+  That one's my fault: the snippet I gave you used local ts = ... on the first line and reused it on the next two. Each CET console entry is its own scope, so ts was already gone — only the weapon was ever
+  given. Use one self-contained line each:
+
+  Game.GetTransactionSystem():GiveItem(Game.GetPlayer(), ItemID.FromTDBID("Items.WeaponSet_SMG"), 1)
+  Game.GetTransactionSystem():GiveItem(Game.GetPlayer(), ItemID.FromTDBID("Items.WeaponSet_Scope"), 1)
+  Game.GetTransactionSystem():GiveItem(Game.GetPlayer(), ItemID.FromTDBID("Items.WeaponSet_Muzzle"), 1)
+
+  TweakXL created both records without errors, so they will appear (Backpack → Mods). I've also set the weapon to ship with our optic and suppressor already fitted, so a fresh copy shows them without any
+  attaching.
+
+  Important for testing
+
+  slotPartListPreset is applied when the item is created, so the weapon already in your inventory will keep the old parts. Drop/disassemble it and spawn a fresh one after restarting.
+
+  If the magazine is still the stock one, the inline ordering I assumed is wrong — it's the one thing here I inferred rather than read. It's inline0..3 = rcv, base, mag_std, mag_stdr, consistent across all
+  three weapons ExtraIconics patches (Masamune, Nue, Sor22), but the Pulsar's own mapping I couldn't read offline. This CET line prints it, and then I can correct it exactly:
+
+  for i,v in ipairs(TweakDB:GetFlat("Items.Preset_Pulsar_Default.slotPartListPreset")) do local n=TDBID.ToStringDEBUG(v); print(i, n, TDBID.ToStringDEBUG(TweakDB:GetFlat(n..".slot")),
+  TDBID.ToStringDEBUG(TweakDB:GetFlat(n..".itemPartPreset"))) end
+

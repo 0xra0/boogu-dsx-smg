@@ -1,0 +1,123 @@
+{
+  "Header": {
+    "WKitJsonVersion": "0.0.8",
+    "GameVersion": 2000,
+    "DataType": "CR2W",
+    "ArchiveFileName": "weaponset\\smg\\local\\en-us.json"
+  },
+  "Data": {
+    "Version": 195,
+    "BuildVersion": 0,
+    "RootChunk": {
+      "$type": "JsonResource",
+      "cookingPlatform": "PLATFORM_PC",
+      "root": {
+        "HandleId": "0",
+        "Data": {
+          "$type": "localizationPersistenceOnScreenEntries",
+          "entries": [
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Boogu DS-X",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "A one-off build on a Darra Polytechnic DS1 frame: carbon-composite shell, reworked optics rail and a hand-wired power cell. Unregistered, unlicensed and very loud.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_desc"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "DS-X Optic",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_Scope_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Matched carbon-shell sight from the DS-X kit. Fits any rail that takes a long scope.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_Scope_desc"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "DS-X Suppressor",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_Muzzle_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Matched carbon-shell can from the DS-X kit. Fits any barrel that takes a power-weapon muzzle.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_Muzzle_desc"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "DS-X TEST 0 (control, nothing custom)",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_Test_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Diagnostic 0 of 4: a plain clone of the stock Pulsar preset - no asset or wiring of ours at all. Equip it. If this freezes, the problem is not this mod.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_Test_desc"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "DS-X TEST A (our appearance only)",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_A_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Diagnostic 1 of 4: our appearance resource, every slot left stock. Equip it. If this freezes, the fault is in our .app or a mesh in it.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_A_desc"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "DS-X TEST C (our arrays, stock parts)",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_C_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Diagnostic 2 of 4: stock appearance and stock parts, but the slot arrays written by hand. Equip it. If this freezes, the fault is in how those arrays are authored and no asset of ours is involved.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_C_desc"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "DS-X TEST B (our parts, stock lists)",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_B_name"
+            },
+            {
+              "$type": "localizationPersistenceOnScreenEntry",
+              "femaleVariant": "Diagnostic 3 of 4: our body and magazines wired in, but only the Pulsar's own three attachment lists. Equip it. If C works and this freezes, the fault is in our part items or their appearance resources.",
+              "maleVariant": "",
+              "primaryKey": "0",
+              "secondaryKey": "WeaponSet_SMG_B_desc"
+            }
+          ]
+        }
+      }
+    },
+    "EmbeddedFiles": []
+  }
+}

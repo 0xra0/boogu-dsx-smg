@@ -1,0 +1,59 @@
+# Build outputs & staging directories
+deploy/
+tmp/
+work/
+staging/
+staging_v2/
+build/
+build_v2/
+build_v3/
+parked/
+verify/
+test_import/
+logs/
+bc_test/
+bc_dds/
+imp_color/
+imp_dds/
+imp_pass/
+imp_v2/
+tex_small/
+meshes_v2_backup/
+att_donor/
+att_glb/
+donor/
+source/
+source_v2/
+
+# Raw Trellis 3D model dumps
+models/*.glb
+
+# Third-party zip/rar downloads
+zips/
+*.rar
+*.7z
+*.zip
+*.tar.gz
+
+# Backup files
+*.bak
+*.bak*
+*.archive.bak
+*~
+*.swp
+*.orig
+
+# WolvenKit CLI Windows binaries
+wkcli_win/
+wkwin
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

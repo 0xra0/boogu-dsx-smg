@@ -1,0 +1,6 @@
+#!/bin/sh
+# Headless WolvenKit CLI wrapper (net8 dll on .NET 10 via roll-forward).
+export DOTNET_ROLL_FORWARD=LatestMajor
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+DLL="/mnt/sata/WolvenKit/WolvenKit.CLI/bin/Release/net8.0/WolvenKit.CLI.dll"
+exec dotnet "$DLL" "$@"
